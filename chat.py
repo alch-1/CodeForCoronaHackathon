@@ -1,3 +1,5 @@
+# run with gunicorn --worker-class eventlet -w 1 -b 0.0.0.0:8989 chat:app on aws
+
 from flask import Flask, render_template, request, redirect, url_for
 from flask_socketio import SocketIO, join_room, leave_room
 
