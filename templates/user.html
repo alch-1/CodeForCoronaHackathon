@@ -1,0 +1,35 @@
+{% extends "header.html" %}
+{% block title %}user{% endblock %}
+
+<!doctype html>
+  <html lang="en">
+    {% block head %}
+      {{ super() }}
+    {% endblock %}
+
+    {% block body %}
+        
+    <div class="container">
+        <!-- Content here -->
+        <div class="container">
+            <!-- Content here -->
+            <h1>User</h1>
+            <a href="#" class="genric-btn info circle arrow" style="font-size: 15px">Click Here<span class="lnr lnr-arrow-right"></span></a>
+        </div>
+
+        <div class="container">
+        <!-- Content here -->
+            <h1>Healthcare Worker</h1>
+            <a href="#" class="genric-btn info circle arrow" style="font-size: 15px">Click Here<span class="lnr lnr-arrow-right"></span></a>
+        </div>
+    </div>
+
+    
+    {% endblock %}
+
+{% block js %} 
+{{ super() }}
+{% endblock %}
+
+
+
