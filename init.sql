@@ -5,7 +5,7 @@ create database health_database;
 -- use this database to create and populate the tables
 use health_database;
 
-CREATE TABLE login (
+CREATE TABLE `login` (
 	-- #user_id INT NOT NULL AUTO_INCREMENT,
 	username VARCHAR(255) NOT NULL,
 	fullname VARCHAR(255) NOT NULL,
@@ -13,7 +13,12 @@ CREATE TABLE login (
     PRIMARY KEY(user_id)
 );
 
-CREATE TABLE session (
-    `session` VARCHAR(255) NOT NULL,
-    token VARCHAR(255) NOT NULL,
-)
+CREATE TABLE `session` (
+    sessionid VARCHAR(255) NOT NULL,
+    token VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE instanthelp (
+    sessionid VARCHAR(255) NOT NULL,
+    statusnum INT NOT NULL
+);
