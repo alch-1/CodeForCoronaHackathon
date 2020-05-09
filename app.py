@@ -70,10 +70,11 @@ def index():
     return render_template("index.html")
     
 # user-type page
-@app.route('/login')
+@app.route('/login', methods=["POST"])
 def user_type():
-    username=request.form.get("uname")
-    password=request.form.get("psw")
+    username=request.form.get("username")
+    password=request.form.get("password")
+    print(username,password)
     if not username or not password:
         return redirect(url_for("index"))
     
@@ -83,26 +84,27 @@ def user_type():
         return redirect(url_for("index"))
     
     if user.user_type:
-        # therapist
-        pass 
+        resp = make_response(redirect(url_for("therapist_homepage")))
+        resp.set_cookie('fullname', user.fullname.title())
+        return resp
     else:
-        resp = make_response(redirect("user"))
-        resp.set_cookie('fullname', user.fullname)
+        resp = make_response(redirect(url_for("user_homepage")))
+        resp.set_cookie('fullname', user.fullname.title())
         return resp
 
 @app.route('/homepage/user')
-def user():
+def user_homepage():
     fullname = request.cookies.get('fullname')
     if not fullname:
         return redirect(url_for("index"))
     return render_template("user.html")
 
 @app.route('/homepage/therapist')
-def user():
+def therapist_homepage():
     fullname = request.cookies.get('fullname')
     if not fullname:
         return redirect(url_for("index"))
-    return render_template("user.html")
+    return render_template("therapist.html")
 
 # for the user to join
 @app.route('/chatnow')
