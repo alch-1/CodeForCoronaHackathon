@@ -28,21 +28,21 @@ def handle_send_message_event(data):
     app.logger.info("{} has sent message to the room {}: {}".format(data['username'],
                                                                     data['room'],
                                                                     data['message']))
-    socketio.emit('receive_message', data, room=data['room'])
+    socketio.emit('receive_message', data, room=data['room'], broadcast=True)
 
 
 @socketio.on('join_room')
 def handle_join_room_event(data):
     app.logger.info("{} has joined the room {}".format(data['username'], data['room']))
     join_room(data['room'])
-    socketio.emit('join_room_announcement', data, room=data['room'])
+    socketio.emit('join_room_announcement', data, room=data['room'], broadcast=True)
 
 
 @socketio.on('leave_room')
 def handle_leave_room_event(data):
     app.logger.info("{} has left the room {}".format(data['username'], data['room']))
     leave_room(data['room'])
-    socketio.emit('leave_room_announcement', data, room=data['room'])
+    socketio.emit('leave_room_announcement', data, room=data['room'], broadcast=True)
 
 
 if __name__ == '__main__':
