@@ -24,6 +24,10 @@ body {
     margin-bottom: 25px;
   }
   
+  .sm-toppadding{
+    padding: 1 0 0 0;
+  }
+
   .btn {
     margin-left: 10px;
     margin-right: 10px;
