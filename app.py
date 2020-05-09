@@ -29,7 +29,7 @@ def room():
 @app.route("/room/<string:session_id>")
 def join(session_id):
     token = opentok.generate_token(session_id)
-    return render_template("chat.html", api_key=API_KEY, session_id=session_id, token=token)
+    return render_template("videocall.html", api_key=API_KEY, session_id=session_id, token=token)
 
 if __name__ == "__main__":
     app.run(host = "0.0.0.0",
