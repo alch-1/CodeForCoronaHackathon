@@ -1,0 +1,95 @@
+{% extends "header.html" %}
+{% block title %}user{% endblock %}
+
+<!doctype html>
+  <html lang="en">
+    {% block head %}
+      {{ super() }}
+    {% endblock %}
+
+    {% block body %}
+
+    <body>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">
+        <img src="/static/img/logo/profile.png" width="30" height="30" class="d-inline-block align-top" alt="">
+        Serenity
+        </a>
+  
+        <div class="collapse align-items-center navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="#">Overview <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Make Appointments</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Past Appointments</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Other Information</a>
+            </li>
+          </ul>
+          <form class="form-inline my-2 my-lg-0" action="logout">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Log-out</button>
+          </form>
+        </div>
+      </nav>
+        
+    <div class="container">
+        <!-- Content here -->
+        <div class="container" style="padding-top: 50px;">
+            <!-- Content here -->
+            <div style="background-image: linear-gradient(to bottom right, #D1C4E9, #512DA8); width: 350px; height:220px; border-radius: 25px; text-align: center; padding-top: 25px;">
+                <!-- To change to dynamic -->
+                <h2>1</h2>
+                <p class="sm-toppadding"></p>
+                <h4>Upcoming Appointment</h4>
+                <p class="sm-toppadding"></p>
+
+                <a href="#" class="genric-btn info circle" style="font-size: 15px" onclick="showMore()">Click Here</a><br>
+            </div>
+        </div>
+        
+        <div class="container" style="padding-top: 50px;">
+            <div id="show_more" style="display:none">
+                <h4>
+                    <small class="text-muted">VIDEO CALL with</small><br>
+                    Jovan
+                </h4>
+                <p class="lead">Monday, 11th May 2020 <br>12.30pm to 3.30pm</p>
+
+                <h4>
+                  Belle
+                </h4>
+                <p class="lead">Monday, 11th May 2020 <br>3.45pm to 4.30pm</p>
+            </div>
+        </div>
+
+        <script>
+            function showMore(){
+            var x = document.getElementById("show_more");
+                if (x.style.display === "none") {
+                    x.style.display = "block";
+                } else {
+                    x.style.display = "none";
+                }
+                }
+        </script>
+
+        <!-- <div class="container">
+            <h1>Healthcare Worker</h1>
+            <a href="#" class="genric-btn info circle arrow" style="font-size: 15px">Click Here<span class="lnr lnr-arrow-right"></span></a>
+        </div> -->
+    </div>
+
+    
+    {% endblock %}
+
+{% block js %} 
+{{ super() }}
+{% endblock %}
+
+
+
