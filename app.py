@@ -21,10 +21,11 @@ def therapist():
 
 @app.route("/room")
 def room():
-    session = opentok.create_session()
-    url = url_for("join", session_id=session.session_id)
+    session = opentok.create_session() # api will create a session when the user visits the "/room" url
+    url = url_for("join", session_id=session.session_id) # get the url for the function named join, pass in the session_id from the session into the url
     return redirect(url)
 
+# join the room using a given session_id
 @app.route("/room/<string:session_id>")
 def join(session_id):
     token = opentok.generate_token(session_id)

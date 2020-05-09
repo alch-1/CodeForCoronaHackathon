@@ -12,7 +12,7 @@ var token = "{{ token }}";
 
 var session = OT.initSession(apiKey, sessionId);
 
-// create publisher
+// create publisher (first person who connects is the publisher)
 var publisher = OT.initPublisher();
 session.connect(token, function(err) {
    // publish publisher
@@ -21,7 +21,7 @@ session.connect(token, function(err) {
 
 // connect to session
 
-// create subscriber
+// create subscriber (the second person who connects is the subscriber)
 session.on('streamCreated', function(event) {
    session.subscribe(event.stream);
 });
