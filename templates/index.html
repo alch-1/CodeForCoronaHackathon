@@ -1,0 +1,52 @@
+{% extends "header.html" %}
+<!doctype html>
+<html lang="en">
+{% block head %}
+{{ super() }}
+<link rel = "stylesheet" type = "text/css" href = "style.css" />
+{% endblock %}
+
+{% block body %}
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="#">Serenity</a>
+      </div>
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="#">HOME</a></li>
+        <li><a href="#">ABOUT</a></li>
+        <li><a href="#">BLOG</a></li>
+        <li><a href="#">CONTACT</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="#"></span>LOG IN</a></li>
+      </ul>
+    </div>
+  </nav>
+
+
+  <!-- start banner Area -->
+  <section class="banner-area relative" id="home">
+    <div class="container">
+        <div class="row fullscreen d-flex align-items-center justify-content-start">
+            <div class="banner-content col-lg-8 col-md-12">
+            
+                <h4 class="text-white text-uppercase">Wide Options of Choice</h4>
+                <h1>
+                    Delicious Menu					
+                </h1>
+                <p class="text-white">
+                    Food delivery near you from a curated choice of local restaurants across Singapore.
+                </p>
+                <a href="vendors.php#main" class="primary-btn header-btn text-uppercase">Check Our Vendors</a>
+            </div>												
+        </div>
+    </div>
+</section>
+<!-- End banner Area -->
+  {% endblock %}
+
+  {% block js %} 
+  {{ super() }}
+  {% endblock %}
+
