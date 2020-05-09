@@ -13,7 +13,6 @@ API_SECRET = "bd0687edf4065b7223e3f199ed00e3b84312696d"
 
 ################
 #     INIT     #
-################
 
 # flask app
 app = Flask(__name__)
@@ -63,6 +62,11 @@ class User(db.Model):
 @app.route('/')
 def index():
     return render_template("index.html")
+    
+# user-type page
+@app.route('/user')
+def user_type():
+    return render_template("user.html")
 
 # for the user to join
 @app.route('/chatnow')
