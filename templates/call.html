@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Video Call</title>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link href= "{{ url_for('static',filename='styles/call.css') }}" type="text/css" rel="stylesheet">
+</head>
+
+<body>
+
+    <!-- SocketIO.js library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
+
+    <!-- OpenTok.js library -->
+    <script src="https://static.opentok.com/v2/js/opentok.js"></script>
+
+    <!-- SocketIO Chat Handler -->
+    <script>
+        // const socket = io.connect("http://127.0.0.1:5000");
+        const socket = io.connect();
+
+        socket.on('connect', function () {
+            socket.emit('join_room', {
+                username: "{{ username }}",
+                room: "{{ room }}"
+            });
+
+            let message_input = document.getElementById('message_input');
+
+            document.getElementById('message_input_form').onclick = function (e) {
+                e.preventDefault();
+                let message = message_input.value.trim();
+                if (message.length) {
+                    socket.emit('send_message', {
+                        username: "{{ username }}",
+                        room: "{{ room }}",
+                        message: message
+                    })
+                }
+                message_input.value = '';
+                message_input.focus();
+            }
+        });
+
+        window.onbeforeunload = function () {
+            socket.emit('leave_room', {
+                username: "{{ username }}",
+                room: "{{ room }}"
+            })
+        };
+
+        socket.on('receive_message', function (data) {
+            console.log(data);
+            var newNode = document.createElement("div");
+            if (data.username == "{{ username }}") {
+                newNode.setAttribute("class", "outgoing_msg");
+                newNode.innerHTML = `<div class="sent_msg">
+                                        <p>${data.message}</p>
+                                    </div>`;
+            } else {
+                newNode.setAttribute("class", "incoming_msg");
+                newNode.innerHTML = `<div class="incoming_msg_img"> 
+                                        <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil">
+                                    </div>
+                                    <div class="received_msg">
+                                        <div class="received_withd_msg">
+                                            <p>${data.message}</p>
+                                            <span class="time_date">${data.username}</span><br>
+                                        </div>
+                                     </div>`;   
+            }
+            document.getElementById('chat_main').appendChild(newNode);
+           
+        });
+
+        socket.on('join_room_announcement', function (data) {
+            console.log(data);
+            if (data.username !== "{{ username }}") {
+                var newNode = document.createElement("div");
+                newNode.setAttribute("class", "incoming_msg");
+                newNode.innerHTML = `<div class="incoming_msg_img"> 
+                                        <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil">
+                                    </div>
+                                    <div class="received_msg">
+                                        <div class="received_withd_msg">
+                                            <p><b>${data.username}</b> has joined the room</p>
+                                            <span class="time_date">Administrator</span><br>
+                                        </div>
+                                     </div>`;
+                document.getElementById('chat_main').appendChild(newNode);
+            }
+        });
+
+        socket.on('leave_room_announcement', function (data) {
+            console.log(data);
+            var newNode = document.createElement("div");
+                newNode.setAttribute("class", "incoming_msg");
+                newNode.innerHTML = `<div class="incoming_msg_img"> 
+                                        <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil">
+                                    </div>
+                                    <div class="received_msg">
+                                        <div class="received_withd_msg">
+                                            <p><b>${data.username}</b> has left the room</p>
+                                            <span class="time_date">Administrator</span><br>
+                                        </div>
+                                     </div>`;
+                document.getElementById('chat_main').appendChild(newNode);
+        });
+    </script>
+
+    <script>
+
+        // credentials
+        var apiKey = {{ api_key }}; // integer, so not double quoted
+        var sessionId = "{{ session_id }}"; // generated by the api
+        var token = "{{ token }}"; 
+
+        var session = OT.initSession(apiKey, sessionId);
+
+        // create publisher (first person who connects is the publisher)
+        var publisher = OT.initPublisher();
+
+        // connect to session
+        session.connect(token, function(err) {
+        // publish publisher
+        session.publish(publisher);
+        });
+
+        // create subscriber (the second person who connects is the subscriber)
+        session.on('streamCreated', function(event) {
+        session.subscribe(event.stream);
+        });
+
+    </script>
+
+
+    <!-- Message Body -->
+    <!-- <div id="messages"></div> -->
+
+    <!-- Chat Input Form -->
+    <!-- <form id="message_input_form">
+        <input type="text" id="message_input" placeholder="Enter your message here">
+        <button type="submit">Send</button>
+    </form> -->
+
+
+    <div class="container">
+    <h3 class="text-center">Messaging</h3>
+        <div class="mesgs">
+            <div class="msg_history" id="chat_main">
+
+            </div>
+
+            <!-- chat -->
+            <div class="type_msg">
+                <div class="input_msg_write">
+                    <input type="text" class="write_msg" id="message_input" placeholder="Type a message">
+                    <button class="msg_send_btn" id="message_input_form" type="button">
+                        <i class="fa fa-paper-plane-o" aria-hidden="true"></i>
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+
+</html>

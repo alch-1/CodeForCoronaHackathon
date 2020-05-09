@@ -17,7 +17,13 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
 <script>
     const socket = io.connect("http://127.0.0.1:8989");
-
+    function timestamp() {
+        var today = new Date();
+        var date = today.getDate() + "-" + (today.getMonth()+1) + "-" + today.getFullYear();
+        var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+        var timestamp = "[" + date + " " + time + "] ";
+        return timestamp;
+    }
     socket.on('connect', function () {
         socket.emit('join_room', {
             username: "{{ username }}",
@@ -28,10 +34,13 @@
 
         document.getElementById('message_input_form').onsubmit = function (e) {
             e.preventDefault();
+            
             let message = message_input.value.trim();
+            // document.write(new Date.toString());
+            // let date = new Date.toString();
             if (message.length) {
                 socket.emit('send_message', {
-                    username: "{{ username }}",
+                    username: timestamp() + "{{ username }}",
                     room: "{{ room }}",
                     message: message
                 })
