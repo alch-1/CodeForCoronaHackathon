@@ -27,8 +27,8 @@
                   <a class="nav-link" href="#">Contact</a>
                 </li>
               </ul>
-              <form class="form-inline my-2 my-lg-0" action="user">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Log-in</button>
+              <div class="form-inline my-2 my-lg-0">
+                <button class="btn btn-outline-success my-2 my-sm-0 form-inline" onclick="document.getElementById('id01').style.display='block'">Log-in</button>
               </form>
             </div>
           </nav>		    		
@@ -53,13 +53,40 @@
 								For individuals who are in dire need of immediate assistance. <br> We are here for you.
 							</p>
 							<a href="#" class="genric-btn info circle arrow " style="font-size: 15px">I require emergency help <span class="lnr lnr-arrow-right"></span></a>
-						</div>												
+            </div>			
+            
+              <!-- Button to open the modal login form -->
+              
+
+                <!-- The Modal -->
+                <div id="id01" class="modal">
+                  <span onclick="document.getElementById('id01').style.display='none'"
+                class="close" title="Close Modal">&times;</span>
+
+                <!-- Modal Content -->
+                <form class="modal-content animate" action="/action_page.php">
+                  <div class="imgcontainer">
+                    <img src="/static/img/logo/profile.png" alt="Avatar" class="avatar" style="width:150px;height:150px;">
+                  </div>
+
+                  <div class="container">
+                    <label for="uname"><b style="font-size: 15px;color:black">Username</b></label>
+                    <input id="input_u" type="text" placeholder="Enter Username" name="uname" required>
+
+                    <label for="psw"><b style="font-size: 15px;color:black">Password</b></label>
+                    <input id="input_p" type="password" placeholder="Enter Password" name="psw" required>
+
+                    <button type="submit">Login</button>
+                  </div>
+
+                </form>
+              </div>
+
 					</div>
-				</div>
+        </div>      
 			</section>
 			<!-- End banner Area -->
 
-		
 
 			<!-- start footer Area -->		
 			<!-- <footer class="footer-area section-gap"> -->
@@ -72,6 +99,18 @@
 				</div>
 			</footer>	 -->
 			<!-- End footer Area -->
+
+      <script>
+        // Get the modal
+        var modal = document.getElementById('id01');
+        
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function(event) {
+          if (event.target == modal) {
+            modal.style.display = "none";
+          }
+        }
+        </script>
 
 			
       {% endblock %}
