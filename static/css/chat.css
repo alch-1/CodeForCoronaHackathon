@@ -1,9 +1,4 @@
-.container{
-  width: 300px;
-  border: 15px solid green;
-  padding: 50px;
-  margin: 20px;
-}
+.container{max-width:1170px; margin:auto;}
 
 img{ max-width:100%;}
 .inbox_people {
@@ -94,8 +89,8 @@ img{ max-width:100%;}
 .received_withd_msg { width: 57%;}
 .mesgs {
   float: left;
-  padding: 30px 15px 0 25px;
-  width: 60%;
+  padding: 100px 15px 0 25px;
+  width: 100%;
 }
 
  .sent_msg p {
@@ -137,6 +132,5 @@ img{ max-width:100%;}
 .messaging { padding: 0 0 50px 0;}
 .msg_history {
   height: 516px;
-  width: 100%;
   overflow-y: auto;
 }
