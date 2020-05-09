@@ -18,15 +18,14 @@ def therapist():
 @app.route("/room")
 def room():
     session = opentok.create_session()
-    url= url_for("join",session_id=session.session_id)
+    url = url_for("join", session_id=session.session_id)
     return redirect(url)
-    
+
 @app.route("/room/<string:session_id>")
 def join(session_id):
-    token=opentok.generate_token(session_id)
+    token = opentok.generate_token(session_id)
     return render_template("chat.html", api_key=API_KEY, session_id=session_id, token=token)
-    
-    
+
 if __name__ == "__main__":
     app.run(host = "0.0.0.0",
             debug = True,
