@@ -2,6 +2,7 @@
 
 from flask import Flask, render_template, request, redirect, url_for
 from flask_socketio import SocketIO, join_room, leave_room
+from flask_sqlalchemy import SQLAlchemy
 from opentok import OpenTok
 
 ###############
@@ -20,17 +21,94 @@ app = Flask(__name__)
 # socket io plugin
 socketio = SocketIO(app)
 
+#sqlalchemy
+db = SQLAlchemy(app)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root@localhost:3306/health_database'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
 # opentok (video call) init
 opentok = OpenTok(API_KEY, API_SECRET)
 
-@app.route("/debug")
-def debug():
-    return "debug"
+###########################
+#     DATABASE MODELS     #
+###########################
+class InstantHelp(db.Model):
+    __tablename__ = 'instanthelp'
 
-# index page
+    session_id = db.Column(db.String(64), primary_key=True)
+    # status 0 = unattended
+    # stauts 1 = attended
+    status_num = db.Column(db.Integer)
+
+    # constructor
+    def __init__(self, session_id, status_num):
+        self.session_id = session_id
+        self.status_num = status_num
+        
+class User(db.Model):
+    __tablename__ = 'user'
+    
+    username = db.Column(db.String(64), primary_key=True)
+    fullname = db.Column(db.String(64), nullable=False)
+    password = db.Column(db.String(64), nullable=False)
+    # type 0 = patient
+    # type 1 = therapist
+    user_type = db.Column(db.Integer)
+
+
+#################
+#     FLASK     #
+#################
+
 @app.route('/')
-def home():
+def index():
     return render_template("index.html")
+
+# for the user to join
+@app.route('/chatnow')
+def instanthelp():
+    # here we create a opentok session to use as the unique id
+    session = opentok.create_session() 
+    
+    # create a database entry
+    help_table = InstantHelp(session.session_id, 0)
+    
+    # insert into the database
+    db.session.add(help_table)
+    db.session.commit()
+    
+    # append into the chat using administrator telling the user to wait for a therapist to attend to you asap
+    return render_template("chatnow.html",
+                           room = session.session_id,
+                           username = "Anonymous")
+
+# for the therapist to join will bring you into a room with an active user
+@app.route('/helpnow')
+def helpnow():
+    # obtain an unattended session
+    session = InstantHelp.query.filter_by(status_num=0).first()
+    
+    # change the status number
+    session.status_num = 1
+    
+    # commit changes
+    db.session.commit()
+    return render_template("chatnow.html",
+                           room = session.session_id,
+                           username = "Anonymous")
+    
+# joint call with chat for the anon people who wish to open up
+@app.route("/joint_room/<string:session_id>")
+def joint_room(session_id):
+    fullname = request.cookies.get("fullname","Anonymous").title()
+    token = opentok.generate_token(session_id)
+    return render_template("call.html", 
+                           api_key    = API_KEY, 
+                           session_id = session_id, 
+                           token      = token, 
+                           room       = session_id,  
+                           username   = fullname
+                        )   
 
 ##################
 #    OPEN TOK    #
@@ -84,9 +162,9 @@ def handle_leave_room_event(data):
     leave_room(data['room'])
     socketio.emit('leave_room_announcement', data, room=data['room'])
 
-#########
-#  RUN  #
-#########
+#############
+#    RUN    #
+#############
 if __name__ == "__main__":
     socketio.run(app,
         host = "0.0.0.0",
