@@ -72,10 +72,10 @@
                                             <p>${data.message}</p>
                                             <span class="time_date">${data.username}</span><br>
                                         </div>
-                                     </div>`;   
+                                    </div>`;   
             }
             document.getElementById('chat_main').appendChild(newNode);
-           
+        
         });
 
         socket.on('join_room_announcement', function (data) {
@@ -91,7 +91,7 @@
                                             <p><b>${data.username}</b> has joined the room</p>
                                             <span class="time_date">Administrator</span><br>
                                         </div>
-                                     </div>`;
+                                    </div>`;
                 document.getElementById('chat_main').appendChild(newNode);
             }
         });
@@ -108,7 +108,7 @@
                                             <p><b>${data.username}</b> has left the room</p>
                                             <span class="time_date">Administrator</span><br>
                                         </div>
-                                     </div>`;
+                                    </div>`;
                 document.getElementById('chat_main').appendChild(newNode);
         });
     </script>

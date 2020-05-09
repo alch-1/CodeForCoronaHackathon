@@ -1,4 +1,10 @@
-.container{max-width:1170px; margin:auto;}
+.container{
+  width: 300px;
+  border: 15px solid green;
+  padding: 50px;
+  margin: 20px;
+}
+
 img{ max-width:100%;}
 .inbox_people {
   background: #f8f8f8 none repeat scroll 0 0;
@@ -131,5 +137,6 @@ img{ max-width:100%;}
 .messaging { padding: 0 0 50px 0;}
 .msg_history {
   height: 516px;
+  width: 100%;
   overflow-y: auto;
 }
