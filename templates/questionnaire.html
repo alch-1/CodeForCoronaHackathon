@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="en">
+    <head>
+
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+
+    </head>
+
+    <body>
+        <!-- From here -->
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" href="#">
+            <img src="/static/img/logo/profile.png" width="30" height="30" class="d-inline-block align-top" alt="">
+            Serenity
+            </a>
+      
+            <div class="collapse align-items-center navbar-collapse" id="navbarSupportedContent">
+              <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                  <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#">About</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#">Contact</a>
+                </li>
+              </ul>
+              <div class="form-inline my-2 my-lg-0">
+                <button class="btn btn-outline-success my-2 my-sm-0 form-inline" onclick="document.getElementById('id01').style.display='block'">Log-in</button>
+              </form>
+            </div>
+        </nav>
+
+
+        <section class="background" style="padding-top: 30px;">
+            <div class="container">
+                <div class="row fullscreen d-flex align-items-center justify-content-start">
+                    <div class="banner-content col-lg-8 col-md-12">
+                        <h1 style=" color: black;">
+                            Finding The Help You Need				
+                        </h1>
+                        <h3>
+
+                        </h3>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        
+
+
+        <div class="container" style="padding-top: 50px;">
+        <form>
+
+            <div class="form-group row">
+                <div class="col-sm-2">Select Your Age</div>
+              <div class="col-sm-10">
+
+                    <select class="form-control" id="sel1">
+                        <option>Below 18</option>
+                        <option>18 to 25</option>
+                        <option>26 to 50</option>
+                        <option>50 and Above</option>
+                      </select>
+                </div>
+              </div>
+
+            <fieldset class="form-group">
+              <div class="row">
+                <legend class="col-form-label col-sm-2 pt-0">Which Category Best Describes Your Issue?</legend>
+                <div class="col-sm-10">
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="category" id="elderly" value="elderly">
+                    <label class="form-check-label" for="elderly">Elderly</label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="category" id="child" value="child">
+                    <label class="form-check-label" for="child">Children / Child Protection</label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="category" id="youth" value="youth">
+                    <label class="form-check-label" for="youth">Youth</label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="category" id="disabled" value="disabled" >
+                    <label class="form-check-label" for="disabled">Disabled</label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="category" id="suicide-crisis" value="suicide-crisis" >
+                    <label class="form-check-label" for="suicide-crisis">Suicide / Crisis</label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="category" id="counselling" value="counselling" >
+                    <label class="form-check-label" for="counselling">Counselling</label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="category" id="addiction" value="addiction" >
+                    <label class="form-check-label" for="addiction">Addiction</label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="category" id="women" value="women" >
+                    <label class="form-check-label" for="women">Women</label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="category" id="men" value="men" >
+                    <label class="form-check-label" for="men">Men</label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="category" id="migrant" value="migrant" >
+                    <label class="form-check-label" for="migrant">Migrant</label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="category" id="family" value="family" >
+                    <label class="form-check-label" for="family">Family</label>
+                  </div>
+                </div>
+              </div>
+            </fieldset>
+
+            <div class="form-group row">
+              <div class="col-sm-2">Tick Those That Are Applicable To You</div>
+              <div class="col-sm-10">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" id="addiction" value="addiction">
+                  <label class="form-check-label" for="addiction">
+                    Addiction
+                  </label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" id="emotional_counselling" value="emotional_counselling">
+                  <label class="form-check-label" for="emotional_counselling">
+                    Emotional Counselling
+                  </label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" id="suicide value="suicide">
+                  <label class="form-check-label" for="suicide">
+                    Suicide Prevention
+                  </label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" id="disability_service" value="disability_service">
+                  <label class="form-check-label" for="disability_service">
+                    Disability Services
+                  </label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" id="volence_abuse" value="volence_abuse">
+                  <label class="form-check-label" for="volence_abuse">
+                    Violence / Abuse
+                  </label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" id="migrant" value="migrant">
+                  <label class="form-check-label" for="migrant">
+                    Migrant Worker
+                  </label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" id="family" value="family">
+                  <label class="form-check-label" for="family">
+                    Family Member
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <div class="col-sm-10">
+                <button type="submit" class="btn btn-primary">Submit</button>
+              </div>
+            </div>
+          </form>
+        </div>
+
+        
+
+
+
+
+
+
+        <!-- To here -->
+
+
+            <!-- Optional JavaScript -->
+            <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+            <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+    </body>
+</html>
+
