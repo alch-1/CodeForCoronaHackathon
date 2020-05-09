@@ -1,6 +1,6 @@
 # run with gunicorn --worker-class eventlet -w 1 -b 0.0.0.0:8989 chat:app on aws
 
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, make_response
 from flask_socketio import SocketIO, join_room, leave_room
 from flask_sqlalchemy import SQLAlchemy
 from opentok import OpenTok
@@ -53,7 +53,13 @@ class User(db.Model):
     # type 0 = patient
     # type 1 = therapist
     user_type = db.Column(db.Integer)
-
+    
+    def __init__(self, username, fullname, password, user_type):
+        self.username=username
+        self.fullname=fullname
+        self.password=password
+        self.user_type=user_type
+        
 
 #################
 #     FLASK     #
@@ -64,8 +70,38 @@ def index():
     return render_template("index.html")
     
 # user-type page
-@app.route('/user')
+@app.route('/login')
 def user_type():
+    username=request.form.get("uname")
+    password=request.form.get("psw")
+    if not username or not password:
+        return redirect(url_for("index"))
+    
+    user = User.query.filter_by(username=username,password=password).first()
+    
+    if not user:
+        return redirect(url_for("index"))
+    
+    if user.user_type:
+        # therapist
+        pass 
+    else:
+        resp = make_response(redirect("user"))
+        resp.set_cookie('fullname', user.fullname)
+        return resp
+
+@app.route('/homepage/user')
+def user():
+    fullname = request.cookies.get('fullname')
+    if not fullname:
+        return redirect(url_for("index"))
+    return render_template("user.html")
+
+@app.route('/homepage/therapist')
+def user():
+    fullname = request.cookies.get('fullname')
+    if not fullname:
+        return redirect(url_for("index"))
     return render_template("user.html")
 
 # for the user to join
