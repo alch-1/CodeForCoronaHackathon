@@ -1,8 +1,13 @@
-<!DOCTYPE html>
-	<html lang="zxx" class="no-js">
-	  <head>
-      <?php include 'header.html';?>
-		</head>
+{% extends "header.html" %}
+{% block title %}Index{% endblock %}
+
+<!doctype html>
+  <html lang="en">
+    {% block head %}
+      {{ super() }}
+    {% endblock %}
+
+    {% block body %}
 		<body style="position: relative; background-image: url('util/img/background2.jpg'); width: 100%; height: 100%; background-size: cover; overflow: hidden;" >
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <a class="navbar-brand" href="#">
@@ -41,7 +46,7 @@
 							<p class="text-white">
 								Feeling down? Afraid? Or simply just need someone to talk to? <br> Let us know how we can help.
 							</p>
-							<a href="#" class="genric-btn info circle arrow" style="font-size: 15px">Talk to Us Now <span class="lnr lnr-arrow-right"></span></a>
+							<a href="#" class="genric-btn info circle arrow" style="font-size: 15px">Get Started <span class="lnr lnr-arrow-right"></span></a>
 						</div>												
 					</div>
 				</div>
@@ -62,23 +67,12 @@
 			</footer>	 -->
 			<!-- End footer Area -->
 
-			<script src="util/js/vendor/jquery-2.2.4.min.js"></script>
-			<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-			<script src="util/js/vendor/bootstrap.min.js"></script>			
-			<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBhOdIF3Y9382fqJYt5I_sswSrEw5eihAA"></script>
-  			<script src="util/js/easing.min.js"></script>			
-			<script src="util/js/hoverIntent.js"></script>
-			<script src="util/js/superfish.min.js"></script>	
-			<script src="util/js/jquery.ajaxchimp.min.js"></script>
-			<script src="util/js/jquery.magnific-popup.min.js"></script>	
-			<script src="util/js/owl.carousel.min.js"></script>			
-			<script src="util/js/jquery.sticky.js"></script>
-			<script src="util/js/jquery.nice-select.min.js"></script>			
-			<script src="util/js/parallax.min.js"></script>	
-			<script src="util/js/mail-script.js"></script>	
-			<script src="util/js/main.js"></script>	
-		</body>
-	</html>
+			
+      {% endblock %}
+
+{% block js %} 
+{{ super() }}
+{% endblock %}
 
 
 
