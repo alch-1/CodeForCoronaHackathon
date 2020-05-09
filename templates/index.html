@@ -71,12 +71,20 @@
 
                   <div class="container">
                     <label for="uname"><b style="font-size: 15px;color:black">Username</b></label>
-                    <input id="input_u" type="text" placeholder="Enter Username" name="uname" required>
+                    <div class="mt-10">
+                      <input id="username" type="text" name="username" placeholder="username" onfocus="this.placeholder = ''" onblur="this.placeholder = 'username'" required class="single-input">
+                    </div>
 
                     <label for="psw"><b style="font-size: 15px;color:black">Password</b></label>
-                    <input id="input_p" type="password" placeholder="Enter Password" name="psw" required>
-
-                    <button type="submit">Login</button>
+                    <div class="mt-10">
+                      <input id="input_p" type="password" name="password" placeholder="password" onfocus="this.placeholder = ''" onblur="this.placeholder = 'password'" required class="single-input">
+                    </div>
+                    
+                    <div style="text-align: center;">
+                      <a href="#" class="genric-btn info circle">Login</a>
+                    </div>
+                    
+                    
                   </div>
 
                 </form>
