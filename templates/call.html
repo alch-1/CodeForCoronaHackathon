@@ -156,7 +156,9 @@
 
         var options = {
             height: "50%",
-            width: "100%"
+            width: "100%",
+            publishAudio:true, 
+            publishVideo:false
         }
         var publisher = OT.initPublisher("publisherContainer", options);
 
@@ -171,7 +173,19 @@
         session.subscribe(event.stream, "subscriberContainer", options);
         });
 
+        function toggleCamera() {
+            if (options.publishVideo == true) {
+                publisher.publishVideo(false);
+                options.publishVideo = false;
+            } else {
+                publisher.publishVideo(true);
+                options.publishVideo = true;             
+            }
+        }
+
     </script>
+
+    <button onclick='toggleCamera()'>Hello</button>
 
 </body>
 
