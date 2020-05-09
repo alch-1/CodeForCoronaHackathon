@@ -31,6 +31,7 @@ class Instanthelp(db.Model):
 # stauts 1 = attended
 def get(statusnum: int) -> list:
     instanthelpList = Instanthelp.query.filter_by(statusnum=statusnum).all()
+    return instanthelpList
 
 @app.route("/")
 def main():
