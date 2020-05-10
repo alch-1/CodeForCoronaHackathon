@@ -189,7 +189,7 @@ def helpnow():
 
 # for the therapist to join will bring you into a room with an active user
 @app.route('/appointment')
-def helpnow():
+def appointment_help():
     # obtain an unattended session
     session = Appointment.query.filter_by(status_num=0).first()
     
