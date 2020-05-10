@@ -58,7 +58,22 @@ class Appointment(db.Model):
     def __init__(self, session_id, status_num):
         self.session_id = session_id
         self.status_num = status_num
-        
+
+class User(db.Model):
+    __tablename__ = 'user'
+    
+    username = db.Column(db.String(64), primary_key=True)
+    fullname = db.Column(db.String(64), nullable=False)
+    password = db.Column(db.String(64), nullable=False)
+    # type 0 = patient
+    # type 1 = therapist
+    user_type = db.Column(db.Integer)
+    
+    def __init__(self, username, fullname, password, user_type):
+        self.username=username
+        self.fullname=fullname
+        self.password=password
+        self.user_type=user_type
     
 #################
 #     FLASK     #
