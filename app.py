@@ -101,8 +101,6 @@ def user_type():
     if not user:
         return redirect(url_for("index"))
     
-    print(user.user_type)
-    
     if user.user_type:
         resp = make_response(redirect(url_for("therapist_homepage")))
         resp.set_cookie('fullname', user.fullname.title())
@@ -188,7 +186,37 @@ def helpnow():
                            token      = token, 
                            room       = session.session_id,  
                            username   = fullname)
+
+# for the therapist to join will bring you into a room with an active user
+@app.route('/appointment')
+def helpnow():
+    # obtain an unattended session
+    session = Appointment.query.filter_by(status_num=0).first()
     
+    if session:
+        # change the status number
+        session.status_num = 1
+    else:
+        session = opentok.create_session()
+        db.session.add(Appointment(session.session_id, 0))
+    
+    # get the helper's fullname
+    fullname = request.cookies.get("fullname","Anonymous").title()
+    
+    # commit changes
+    db.session.commit()
+    
+    # generate the token
+    token = opentok.generate_token(session.session_id)
+    
+    return render_template("session.html",
+                           api_key    = API_KEY, 
+                           session_id = session.session_id, 
+                           token      = token, 
+                           room       = session.session_id,  
+                           username   = fullname)
+
+
 ##################
 #    OPEN TOK    #
 ##################

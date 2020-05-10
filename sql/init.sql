@@ -28,9 +28,22 @@ CREATE TABLE `appointment` (
     status_num INT NOT NULL
 );
 
+CREATE TABLE `questionaire` (
+  `SN` int AUTO_INCREMENT,
+  `name` text,
+  `details` text,
+  `website` text,
+  `operating_hours` text,
+  `contact_details` text,
+  `category` text
+);
+
 INSERT INTO `user` VALUES
 ('ryota', 'ryota wong', 'password', 0),
 ('joven', 'joven heng', 'password', 0),
 ('benjamin', 'benjamin wong', 'password', 1),
 ('aldric', 'aldric chong', 'password', 1),
 ('belle', 'belle lee', 'password', 1);
+
+
+INSERT INTO `questionaire` VALUES 
