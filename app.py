@@ -74,6 +74,17 @@ class User(db.Model):
         self.password=password
         self.user_type=user_type
         
+class Question(db.Model):
+    __tablename__ = 'questionaire'
+    
+    SN              = db.Column(db.Integer, primary_key=True)
+    name            = db.Column(db.Text),
+    details         = db.Column(db.Text),
+    website         = db.Column(db.Text),
+    operating_hours = db.Column(db.Text),
+    contact_details = db.Column(db.Text),
+    category        = db.Column(db.Text)
+        
 #################
 #     FLASK     #
 #################
@@ -134,9 +145,34 @@ def therapist_homepage():
 def question():
     return render_template("questionnaire.html")
     
-@app.route('/questionnaire_result', methods=["post"])
+@app.route('/questionnaire_result', methods=["POST"])
 def question_result():
-    return render_template("questionnaire_result.html")
+    
+    age = request.form.get("age")
+    gender = request.form.get("gender")
+    problem = request.get("problem")
+    
+    if not all([age,gender,problem]):
+        return redirect(url_for("question"))
+    
+    age = int(age)
+    
+    focus = [gender]
+    focus.extend(problem)
+    
+    if age <= 14:
+        focus.append("Children / Child Protection")
+    elif age <= 25:
+        focus.append("Youth")
+    elif age < 65:
+        pass
+    else:
+        focus.append("Elderly")
+    return str(focus)
+    
+    
+    
+    # return render_template("questionnaire_result.html")
 
 # for the user to join
 @app.route('/chatnow')
