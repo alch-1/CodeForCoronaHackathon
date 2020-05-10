@@ -53,16 +53,16 @@
                 <div class="col-sm-2">Select Your Age</div>
               <div class="col-sm-10">
 
-                    <select class="form-control" id="sel1">
-                        <option value="below_18">Below 18</option>
-                        <option value="18_to_25">18 to 25</option>
-                        <option value="26_to_50">26 to 50</option>
-                        <option value="50_and_above">50 and Above</option>
+                    <select class="form-control" id="sel1" name="age">
+                        <option value="below_14">Below 14</option>
+                        <option value="15_to_25">15 to 25</option>
+                        <option value="26_to_15">26 to 65</option>
+                        <option value="65_and_above">65 and Above</option>
                       </select>
                 </div>
               </div>
 
-            <fieldset class="form-group">
+            <!-- <fieldset class="form-group">
               <div class="row">
                 <legend class="col-form-label col-sm-2 pt-0">Which Category Best Describes Your Issue?</legend>
                 <div class="col-sm-10">
@@ -112,7 +112,25 @@
                   </div>
                 </div>
               </div>
-            </fieldset>
+            </fieldset> -->
+            
+            <fieldset class="form-group">
+              <div class="row">
+                <legend class="col-form-label col-sm-2 pt-0">Which Category Best Describes Your Issue?</legend>
+                <div class="col-sm-10">
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="gender[]" id="male" value="male">
+                    <label class="form-check-label" for="male">Male</label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="gender[]" id="female" value="female">
+                    <label class="form-check-label" for="female">Female</label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="gender[]" id="others" value="others">
+                    <label class="form-check-label" for="youth">others</label>
+                  </div>
+            <fieldset></fieldset>
 
             <div class="form-group row">
               <div class="col-sm-2">Tick Those That Are Applicable To You</div>
