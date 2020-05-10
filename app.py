@@ -80,7 +80,7 @@ def index():
 def user_type():
     username=request.form.get("username")
     password=request.form.get("password")
-    print(username,password)
+
     if not username or not password:
         return redirect(url_for("index"))
     
@@ -88,6 +88,8 @@ def user_type():
     
     if not user:
         return redirect(url_for("index"))
+    
+    print(user.user_type)
     
     if user.user_type:
         resp = make_response(redirect(url_for("therapist_homepage")))
