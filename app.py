@@ -78,12 +78,30 @@ class Question(db.Model):
     __tablename__ = 'questionaire'
     
     SN              = db.Column(db.Integer, primary_key=True)
-    name            = db.Column(db.Text),
-    details         = db.Column(db.Text),
-    website         = db.Column(db.Text),
-    operating_hours = db.Column(db.Text),
-    contact_details = db.Column(db.Text),
-    category        = db.Column(db.Text)
+    name            = db.Column(db.String(255)),
+    details         = db.Column(db.String(255)),
+    website         = db.Column(db.String(255)),
+    operating_hours = db.Column(db.String(255)),
+    contact_details = db.Column(db.String(255)),
+    category        = db.Column(db.String(255))
+    
+    def __init__(self,SN,name,details,website,operating_hours,contact_details,category):
+        self.SN = SN
+        self.name = name
+        self.details = details
+        self.website = website
+        self.operating_hours = operating_hours
+        self.contact_details = contact_details
+        self.category = category
+        
+    def directory(self):
+        return [
+            self.name,
+            self.details,
+            self.website,
+            self.operating_hours,
+            self.contact_details,
+        ]
         
 #################
 #     FLASK     #
@@ -150,7 +168,9 @@ def question_result():
     
     age = request.form.get("age")
     gender = request.form.get("gender")
-    problem = request.get("problem")
+    problem = request.form.getlist("problem[]")
+    
+    print(age,gender,problem)
     
     if not all([age,gender,problem]):
         return redirect(url_for("question"))
@@ -168,7 +188,17 @@ def question_result():
         pass
     else:
         focus.append("Elderly")
-    return str(focus)
+    
+    lines = Question.query.all()
+        
+    output = []
+    
+    for line in lines:
+        if line.category in focus:
+            output.append(line.directory())
+    
+    
+    return str(output)
     
     
     
