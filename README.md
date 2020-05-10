@@ -1,4 +1,4 @@
-# CodeForCoronaWinners
+# Project Serenity
 
 ## Inspiration
 
