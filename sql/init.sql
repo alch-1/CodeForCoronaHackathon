@@ -21,6 +21,13 @@ CREATE TABLE `instanthelp` (
     status_num INT NOT NULL
 );
 
+CREATE TABLE `appointment` (
+    session_id VARCHAR(255) PRIMARY KEY,
+    # 0 --> unattended
+    # 1 --> attended
+    status_num INT NOT NULL
+);
+
 INSERT INTO `user` VALUES
 ('ryota', 'ryota wong', 'password', 0),
 ('joven', 'joven heng', 'password', 0),

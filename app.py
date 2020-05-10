@@ -45,6 +45,19 @@ class InstantHelp(db.Model):
         self.session_id = session_id
         self.status_num = status_num
         
+class Appointment(db.Model):
+    __tablename__ = 'appointment'
+
+    session_id = db.Column(db.String(64), primary_key=True)
+    # status 0 = unattended
+    # stauts 1 = attended
+    status_num = db.Column(db.Integer)
+
+    # constructor
+    def __init__(self, session_id, status_num):
+        self.session_id = session_id
+        self.status_num = status_num
+        
 class User(db.Model):
     __tablename__ = 'user'
     
@@ -61,7 +74,6 @@ class User(db.Model):
         self.password=password
         self.user_type=user_type
         
-
 #################
 #     FLASK     #
 #################
