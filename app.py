@@ -111,6 +111,12 @@ def user_type():
         resp = make_response(redirect(url_for("user_homepage")))
         resp.set_cookie('fullname', user.fullname.title())
         return resp
+    
+@app.route('/logout')
+def logout():
+    resp = make_response(redirect(url_for("index")))
+    resp.delete_cookie('fullname')
+    return resp
 
 @app.route('/homepage/user')
 def user_homepage():
