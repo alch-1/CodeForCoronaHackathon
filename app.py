@@ -1,6 +1,7 @@
 # run with gunicorn --worker-class eventlet -w 1 -b 0.0.0.0:8989 chat:app on aws
 
-from flask import Flask, render_template, request, redirect, url_for, make_response
+import os
+from flask import Flask, render_template, request, redirect, url_for, make_response, send_from_directory
 from flask_socketio import SocketIO, join_room, leave_room
 from flask_sqlalchemy import SQLAlchemy
 from opentok import OpenTok
@@ -21,9 +22,9 @@ app = Flask(__name__)
 socketio = SocketIO(app)
 
 #sqlalchemy
-db = SQLAlchemy(app)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root@localhost:3306/health_database'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+db = SQLAlchemy(app)
 
 # opentok (video call) init
 opentok = OpenTok(API_KEY, API_SECRET)
@@ -64,6 +65,11 @@ class User(db.Model):
 #################
 #     FLASK     #
 #################
+
+@app.route('/favicon.ico')
+def favicon():
+    return send_from_directory(os.path.join(app.root_path, 'static'),
+                          'img/logo/favicon.ico',mimetype='image/vnd.microsoft.icon')
 
 @app.route('/')
 def index():
@@ -119,10 +125,16 @@ def instanthelp():
     db.session.add(help_table)
     db.session.commit()
     
+    # generate the token
+    token = opentok.generate_token(session.session_id)
+    
     # append into the chat using administrator telling the user to wait for a therapist to attend to you asap
     return render_template("chatnow.html",
-                           room = session.session_id,
-                           username = "Anonymous")
+                           api_key    = API_KEY,
+                           session_id = session.session_id, 
+                           token      = token, 
+                           room       = session.session_id,
+                           username   = "Anonymous")
 
 # for the therapist to join will bring you into a room with an active user
 @app.route('/helpnow')
@@ -130,28 +142,25 @@ def helpnow():
     # obtain an unattended session
     session = InstantHelp.query.filter_by(status_num=0).first()
     
+    # get the helper's fullname
+    fullname = request.cookies.get("fullname","Anonymous").title()
+    
     # change the status number
     session.status_num = 1
     
     # commit changes
     db.session.commit()
-    return render_template("chatnow.html",
-                           room = session.session_id,
-                           username = "Anonymous")
     
-# joint call with chat for the anon people who wish to open up
-@app.route("/joint_room/<string:session_id>")
-def joint_room(session_id):
-    fullname = request.cookies.get("fullname","Anonymous").title()
-    token = opentok.generate_token(session_id)
-    return render_template("call.html", 
+    # generate the token
+    token = opentok.generate_token(session.session_id)
+    
+    return render_template("chatnow.html",
                            api_key    = API_KEY, 
-                           session_id = session_id, 
+                           session_id = session.session_id, 
                            token      = token, 
-                           room       = session_id,  
-                           username   = fullname
-                        )   
-
+                           room       = session.session_id,  
+                           username   = fullname)
+    
 ##################
 #    OPEN TOK    #
 ##################
