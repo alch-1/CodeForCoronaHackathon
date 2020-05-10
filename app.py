@@ -131,6 +131,14 @@ def therapist_homepage():
     if not fullname:
         return redirect(url_for("index"))
     return render_template("therapist.html")
+    
+@app.route('/questionnaire')
+def question():
+    return render_template("questionnaire.html")
+    
+@app.route('/questionnaire_result', methods=["post"])
+def question_result():
+    return render_template("questionnaire_result.html")
 
 # for the user to join
 @app.route('/chatnow')
