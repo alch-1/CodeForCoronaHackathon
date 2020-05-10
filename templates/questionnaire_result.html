@@ -1,0 +1,174 @@
+{% extends "header.html" %}
+{% block title %}user{% endblock %}
+
+<!doctype html>
+<html lang="en">
+{% block head %}
+{{ super() }}
+{% endblock %}
+
+  {% block body %}
+
+    <body>
+        <!-- From here -->
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" href="/">
+            <img src="/static/img/logo/profile.png" width="30" height="30" class="d-inline-block align-top" alt="">
+            Serenity
+            </a>
+      
+            <div class="collapse align-items-center navbar-collapse" id="navbarSupportedContent">
+              <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                  <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#">About</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#">Contact</a>
+                </li>
+              </ul>
+              <div class="form-inline my-2 my-lg-0">
+                <button class="btn btn-outline-success my-2 my-sm-0 form-inline" onclick="document.getElementById('id01').style.display='block'">Log-in</button>
+              </form>
+            </div>
+        </nav>
+
+
+        <section>
+            <div class="container">
+                <h1 style=" color: black;">
+                    Finding The Help You Need				
+                </h1>
+            </div>
+        </section>
+
+        
+
+
+        <div class="container">
+        <form action="/questionnaire_result" method="post">
+            <div class="form-group row">
+                <div class="col-sm-2">Select Your Age</div>
+              <div class="col-sm-10">
+
+                    <select class="form-control" id="sel1">
+                        <option value="below_18">Below 18</option>
+                        <option value="18_to_25">18 to 25</option>
+                        <option value="26_to_50">26 to 50</option>
+                        <option value="50_and_above">50 and Above</option>
+                      </select>
+                </div>
+              </div>
+
+            <fieldset class="form-group">
+              <div class="row">
+                <legend class="col-form-label col-sm-2 pt-0">Which Category Best Describes Your Issue?</legend>
+                <div class="col-sm-10">
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="category" id="elderly" value="elderly">
+                    <label class="form-check-label" for="elderly">Elderly</label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="category" id="child" value="child">
+                    <label class="form-check-label" for="child">Children / Child Protection</label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="category" id="youth" value="youth">
+                    <label class="form-check-label" for="youth">Youth</label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="category" id="disabled" value="disabled" >
+                    <label class="form-check-label" for="disabled">Disabled</label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="category" id="suicide-crisis" value="suicide-crisis" >
+                    <label class="form-check-label" for="suicide-crisis">Suicide / Crisis</label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="category" id="counselling" value="counselling" >
+                    <label class="form-check-label" for="counselling">Counselling</label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="category" id="addiction" value="addiction" >
+                    <label class="form-check-label" for="addiction">Addiction</label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="category" id="women" value="women" >
+                    <label class="form-check-label" for="women">Women</label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="category" id="men" value="men" >
+                    <label class="form-check-label" for="men">Men</label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="category" id="migrant" value="migrant" >
+                    <label class="form-check-label" for="migrant">Migrant</label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="category" id="family" value="family" >
+                    <label class="form-check-label" for="family">Family</label>
+                  </div>
+                </div>
+              </div>
+            </fieldset>
+
+            <div class="form-group row">
+              <div class="col-sm-2">Tick Those That Are Applicable To You</div>
+              <div class="col-sm-10">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" id="addiction_check" value="addiction_check">
+                  <label class="form-check-label" for="addiction_check">
+                    Addiction
+                  </label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" id="emotional_counselling_check" value="emotional_counselling_check">
+                  <label class="form-check-label" for="emotional_counselling_check">
+                    Emotional Counselling
+                  </label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" id="suicide_check" value="suicide_check">
+                  <label class="form-check-label" for="suicide_check">
+                    Suicide Prevention
+                  </label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" id="disability_service_check" value="disability_service_check">
+                  <label class="form-check-label" for="disability_service_check">
+                    Disability Services
+                  </label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" id="volence_abuse_check" value="volence_abuse_check">
+                  <label class="form-check-label" for="volence_abuse_check">
+                    Violence / Abuse
+                  </label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" id="migrant_check" value="migrant_check">
+                  <label class="form-check-label" for="migrant_check">
+                    Migrant Worker
+                  </label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" id="family_check" value="family_check">
+                  <label class="form-check-label" for="family_check">
+                    Family Member
+                  </label>
+                </div>
+              </div>
+            </div>
+
+                <button type="submit" class="btn btn-primary">Submit</button>
+          </form>
+        </div>
+
+        {% endblock %}
+
+        {% block js %} 
+        {{ super() }}
+        {% endblock %}
+        

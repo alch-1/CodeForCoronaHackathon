@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Video Call</title>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href= "{{ url_for('static',filename='css/chat.css') }}" type="text/css" rel="stylesheet">
+</head>
+
+<body style="position: relative; width: 100%; height: 100%; background-size: cover; overflow: hidden;">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="/">
+        <img src="/static/img/logo/profile.png" width="30" height="30" class="d-inline-block align-top" alt="">
+        Serenity
+        </a>
+  
+        <div class="collapse align-items-center navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">About</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Contact</a>
+            </li>
+          </ul>
+          <form class="form-inline my-2 my-lg-0">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Log-in</button>
+          </form>
+        </div>
+      </nav>		    		
+    <p style="padding-top: 40px;"></p>
+
+    <!-- SocketIO.js library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
+
+    <!-- OpenTok.js library -->
+    <script src="https://static.opentok.com/v2/js/opentok.js"></script>
+
+    <!-- SocketIO Chat Handler -->
+    <script>
+        // const socket = io.connect("http://127.0.0.1:5000");
+        const socket = io.connect();
+
+        socket.on('connect', function () {
+            socket.emit('join_room', {
+                username: "{{ username }}",
+                room: "{{ room }}"
+            });
+
+            let message_input = document.getElementById('message_input');
+
+            document.getElementById('message_input_form').onsubmit = function (e) {
+                e.preventDefault();
+                let message = message_input.value.trim();
+                if (message.length) {
+                    socket.emit('send_message', {
+                        username: "{{ username }}",
+                        room: "{{ room }}",
+                        message: message
+                    })
+                }
+                message_input.value = '';
+                message_input.focus();
+            }
+        });
+
+        window.onbeforeunload = function () {
+            socket.emit('leave_room', {
+                username: "{{ username }}",
+                room: "{{ room }}"
+            })
+        };
+
+        socket.on('receive_message', function (data) {
+            console.log(data);
+            var newNode = document.createElement("div");
+            if (data.username == "{{ username }}") {
+                newNode.setAttribute("class", "outgoing_msg");
+                newNode.innerHTML = `<div class="sent_msg">
+                                        <p>${data.message}</p>
+                                    </div>`;
+            } else {
+                newNode.setAttribute("class", "incoming_msg");
+                newNode.innerHTML = `<div class="incoming_msg_img"> 
+                                        <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil">
+                                    </div>
+                                    <div class="received_msg">
+                                        <div class="received_withd_msg">
+                                            <p>${data.message}</p>
+                                            <span class="time_date">${data.username}</span><br>
+                                        </div>
+                                    </div>`;   
+            }
+            document.getElementById('chat_main').appendChild(newNode);
+        
+        });
+
+        socket.on('join_room_announcement', function (data) {
+            console.log(data);
+            if (data.username !== "{{ username }}") {
+                var newNode = document.createElement("div");
+                newNode.setAttribute("class", "incoming_msg");
+                newNode.innerHTML = `<div class="incoming_msg_img"> 
+                                        <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil">
+                                    </div>
+                                    <div class="received_msg">
+                                        <div class="received_withd_msg">
+                                            <p><b>${data.username}</b> has joined the room</p>
+                                            <span class="time_date">Administrator</span><br>
+                                        </div>
+                                    </div>`;
+                document.getElementById('chat_main').appendChild(newNode);
+            }
+        });
+
+        socket.on('leave_room_announcement', function (data) {
+            console.log(data);
+            var newNode = document.createElement("div");
+                newNode.setAttribute("class", "incoming_msg");
+                newNode.innerHTML = `<div class="incoming_msg_img"> 
+                                        <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil">
+                                    </div>
+                                    <div class="received_msg">
+                                        <div class="received_withd_msg">
+                                            <p><b>${data.username}</b> has left the room</p>
+                                            <span class="time_date">Administrator</span><br>
+                                        </div>
+                                    </div>`;
+                document.getElementById('chat_main').appendChild(newNode);
+        });
+    </script>
+
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <br>    
+                <div id="publisherContainer"></div>
+                <br>
+                <div id="subscriberContainer"></div>
+                <button class="btn btn-outline-success my-2 my-sm-0" onclick='enableChat()' id="readytotalk">I am Ready to Talk</button>  
+                <button class="btn btn-outline-success my-2 my-sm-0" onclick='toggleCamera()' id="camera">Toggle Camera</button>  
+            </div>
+            <div class="col">
+                <h3 class="text-center">Messaging</h3>
+                <div class="mesgs">
+                    <div class="msg_history" id="chat_main"></div>
+
+                    <!-- chat -->
+                    <div class="type_msg">
+                        <div class="input_msg_write">
+                            <form id="message_input_form">
+                                <input type="text" class="write_msg" id="message_input" placeholder="Type a message">
+                                <button class="msg_send_btn" type="submit">
+                            </form>
+                                <i class="fa fa-paper-plane-o" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+
+        // credentials
+        var apiKey = {{ api_key }}; // integer, so not double quoted
+        var sessionId = "{{ session_id }}"; // generated by the api
+        var token = "{{ token }}"; 
+
+        var session = OT.initSession(apiKey, sessionId);
+
+        // create publisher (first person who connects is the publisher)
+
+        var options = {
+            height: "50%",
+            width: "100%",
+            publishAudio:false, 
+            publishVideo:false
+        }
+        var publisher = OT.initPublisher("publisherContainer", options);
+
+        // connect to session
+        session.connect(token, function(err) {
+        // publish publisher
+        session.publish(publisher);
+        });
+
+        // create subscriber (the second person who connects is the subscriber)
+        session.on('streamCreated', function(event) {
+        session.subscribe(event.stream, "subscriberContainer", options);
+        });
+
+        document.getElementById("publisherContainer").style.display = "none";
+        document.getElementById("subscriberContainer").style.display = "none";
+        document.getElementById("camera").style.display = "none";
+
+        function enableChat() {
+
+            document.getElementById("publisherContainer").style.display = "block";
+            document.getElementById("subscriberContainer").style.display = "block";
+            document.getElementById("readytotalk").style.display = "none";
+            document.getElementById("camera").style.display = "block";
+            publisher.publishAudio(true);
+
+        }
+
+        function toggleCamera() {
+
+            if (options.publishVideo == true) {
+                publisher.publishVideo(false);
+                options.publishVideo = false;
+            } else {
+                publisher.publishVideo(true);
+                options.publishVideo = true;             
+            }
+        }
+
+    </script>
+
+</body>
+
+</html>
