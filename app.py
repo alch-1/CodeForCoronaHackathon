@@ -5,6 +5,7 @@ from flask import Flask, render_template, request, redirect, url_for, make_respo
 from flask_socketio import SocketIO, join_room, leave_room
 from flask_sqlalchemy import SQLAlchemy
 from opentok import OpenTok
+import csv
 
 ###############
 #   GLOBALS   #
@@ -58,51 +59,7 @@ class Appointment(db.Model):
         self.session_id = session_id
         self.status_num = status_num
         
-class User(db.Model):
-    __tablename__ = 'user'
     
-    username = db.Column(db.String(64), primary_key=True)
-    fullname = db.Column(db.String(64), nullable=False)
-    password = db.Column(db.String(64), nullable=False)
-    # type 0 = patient
-    # type 1 = therapist
-    user_type = db.Column(db.Integer)
-    
-    def __init__(self, username, fullname, password, user_type):
-        self.username=username
-        self.fullname=fullname
-        self.password=password
-        self.user_type=user_type
-        
-class Question(db.Model):
-    __tablename__ = 'questionaire'
-    
-    SN              = db.Column(db.Integer, primary_key=True)
-    name            = db.Column(db.String(255)),
-    details         = db.Column(db.String(255)),
-    website         = db.Column(db.String(255)),
-    operating_hours = db.Column(db.String(255)),
-    contact_details = db.Column(db.String(255)),
-    category        = db.Column(db.String(255))
-    
-    def __init__(self,SN,name,details,website,operating_hours,contact_details,category):
-        self.SN = SN
-        self.name = name
-        self.details = details
-        self.website = website
-        self.operating_hours = operating_hours
-        self.contact_details = contact_details
-        self.category = category
-        
-    def directory(self):
-        return [
-            self.name,
-            self.details,
-            self.website,
-            self.operating_hours,
-            self.contact_details,
-        ]
-        
 #################
 #     FLASK     #
 #################
@@ -189,21 +146,16 @@ def question_result():
     else:
         focus.append("Elderly")
     
-    lines = Question.query.all()
-        
     output = []
     
-    for line in lines:
-        if line.category in focus:
-            output.append(line.directory())
+    with open("static/data/info.csv") as myfile:
+        spamreader = csv.reader(myfile, delimiter=',', quotechar='"')
+        for row in spamreader:
+            if row[5] in focus:
+                output.append(list(map(lambda x: x.replace("\n","").replace("\r",""),row)))
     
-    
-    return str(output)
-    
-    
-    
-    # return render_template("questionnaire_result.html")
-
+    return render_template("questionnaire_result.html", item=output)
+                
 # for the user to join
 @app.route('/chatnow')
 def instanthelp():
