@@ -29,7 +29,7 @@ CREATE TABLE `appointment` (
 );
 
 CREATE TABLE `questionaire` (
-  `SN` int AUTO_INCREMENT,
+  `SN` int AUTO_INCREMENT PRIMARY KEY,
   `name` text,
   `details` text,
   `website` text,
@@ -46,4 +46,5 @@ INSERT INTO `user` VALUES
 ('belle', 'belle lee', 'password', 1);
 
 
-INSERT INTO `questionaire` VALUES 
+
+-- INSERT INTO `questionaire` VALUES 
